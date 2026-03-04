@@ -5,7 +5,7 @@ import {
   PropertyAgentPatchSchema,
   PropertyAgentReplaceSchema,
 } from "../store/propertyAgent.js";
-import { ApiError, zodDetails } from "../lib/errors.js";
+import { API_ERROR_CODES, ApiError, zodDetails } from "../lib/errors.js";
 import type { PropertyAgentService } from "../service/propertyAgentService.js";
 
 export function propertyAgentsRouter(service: PropertyAgentService) {
@@ -23,7 +23,7 @@ export function propertyAgentsRouter(service: PropertyAgentService) {
     } catch (err) {
       if (err instanceof ZodError) {
         throw new ApiError({
-          code: "VALIDATION_ERROR",
+          code: API_ERROR_CODES.VALIDATION_ERROR,
           status: 400,
           message: "Invalid request body.",
           details: zodDetails(err),
@@ -45,7 +45,7 @@ export function propertyAgentsRouter(service: PropertyAgentService) {
     } catch (err) {
       if (err instanceof ZodError) {
         throw new ApiError({
-          code: "VALIDATION_ERROR",
+          code: API_ERROR_CODES.VALIDATION_ERROR,
           status: 400,
           message: "Invalid request body.",
           details: zodDetails(err),
@@ -63,7 +63,7 @@ export function propertyAgentsRouter(service: PropertyAgentService) {
     } catch (err) {
       if (err instanceof ZodError) {
         throw new ApiError({
-          code: "VALIDATION_ERROR",
+          code: API_ERROR_CODES.VALIDATION_ERROR,
           status: 400,
           message: "Invalid request body.",
           details: zodDetails(err),
