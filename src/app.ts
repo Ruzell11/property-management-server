@@ -17,11 +17,35 @@ export function createApp() {
 
   app.get("/health", (_req, res) => res.json({ ok: true }));
 
+  const repository = new InMemoryPropertyAgentRepository();
+  const service = new PropertyAgentService(repository);
+
+  app.use("/api/property-agents", propertyAgentsRouter(service));
 
   app.get("/", (_req, res) => {
     res.json({ message: "Property Management API is running" });
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+    if (err instanceof ApiError) {
+      res.status(err.status).json({
+        error: {
+          code: err.code,
+          message: err.message,
+          details: err.details,
+        },
+      });
+      return;
+    }
+
+    res.status(500).json({
+      error: {
+        code: "INTERNAL_ERROR",
+        message: "Unexpected server error.",
+      },
+    });
+  });
 
   return app;
 }
